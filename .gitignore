@@ -1,0 +1,69 @@
+# Visual Studio files
+.vscode/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.sln.ide
+*.sln.dotSettings
+*.sln.ide-shm
+*.sln.ide-wal
+
+# Build directories
+bin/
+obj/
+build/
+out/
+
+# ASP.NET temporary files
+_AppStart.cshtml
+_ProjectImports.cs
+*.csproj.user
+*.csproj.DotSettings.user
+
+# Configuration files
+*.config
+*.json
+
+# Security
+*.pfx
+*.p12
+*.key
+
+# Entity Framework
+*.edmx.diagram
+*.edmx.sql
+*.tt
+*.t4
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# npm package directories
+node_modules/
+
+# Logs
+*.log
+*.tlg
+
+# Resharper
+_ReSharper*/
+*.DotSettings.user
+
+# StyleCop
+StyleCop.Cache
+
+# Azure
+*.Publish.xml
+*.azurePubxml
+*.azurePubxml.user
+
+# Others
+*.nupkg
+*.lock.json
+*.sql
+*.swp
+*.bak
+*.dmp
