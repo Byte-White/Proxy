@@ -1,7 +1,18 @@
 using Microsoft.EntityFrameworkCore;
 using Proxy.Models;
+using System.Net;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.Listen(IPAddress.Any, 5087);
+    options.Listen(IPAddress.Any, 7006, listenOptions =>
+    {
+        listenOptions.UseHttps();
+    });
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -12,6 +23,8 @@ builder.Services.AddDbContext<ProxyContext>(options =>
 });
 
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -31,5 +44,6 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.Run();
