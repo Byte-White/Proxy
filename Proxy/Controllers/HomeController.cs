@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Proxy.Models;
 using System.Diagnostics;
 using System.Net;
+using QRCoder;
 
 
 namespace Proxy.Controllers
@@ -43,12 +44,26 @@ namespace Proxy.Controllers
             return localIpAddress;
         }
 
+        private string GenerateQrCode(string content)
+        {
+            using (var qrGenerator = new QRCodeGenerator())
+            {
+                var qrCodeData = qrGenerator.CreateQrCode(content, QRCodeGenerator.ECCLevel.Q);
+
+                using (var pngQRCode = new PngByteQRCode(qrCodeData))
+                {
+                    byte[] qrCodeBytes = pngQRCode.GetGraphic(20);
+                    return "data:image/png;base64," + Convert.ToBase64String(qrCodeBytes);
+                }
+            }
+        }
 
 
         public IActionResult Index()
         {
-            string localIp = GetLocalIpAddress();
+            string localIp = GetLocalIpAddress() + ":5087";
             ViewData["LocalIPAddress"] = localIp;
+            ViewData["QrCodeImage"] = GenerateQrCode("http://" + localIp);
             return View();
         }
 
