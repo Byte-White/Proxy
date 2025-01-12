@@ -1,47 +1,27 @@
 ﻿@model IEnumerable<Proxy.Models.Note>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Notes";
 }
 
-<h1>Index</h1>
+<h1>Shared Notes</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Message)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Message)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+    <div class="card mb-3" style="cursor: pointer;"
+            onclick="location.href='@Url.Action("Details", new { id = item.Id })';"
+            onmouseover="this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.1)';"
+            onmouseout="this.style.boxShadow='none';">
+        <div class="card-body text-center">
+            <h4 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h4>
+            <p class="card-text">@Html.DisplayFor(modelItem => item.Message)</p>
+            <small class="text-muted">@Html.DisplayFor(modelItem => item.CreatedAt)</small>
+            <br/>
+            <small> <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> </small>
+        </div>
+    </div>
 }
-    </tbody>
+
 </table>

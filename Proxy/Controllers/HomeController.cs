@@ -18,7 +18,7 @@ namespace Proxy.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Files()
         {
             return View();
         }

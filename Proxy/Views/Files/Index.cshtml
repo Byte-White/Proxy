@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Files";
+}
+
+<div class="text-center">
+    <h1>Files Page</h1>
+    <form method="post" enctype="multipart/form-data" asp-controller="Files" asp-action="Upload">
+        <div class="form-group">
+            <label for="files">Upload files:</label>
+            <input type="file" name="files" id="files" class="form-control" multiple />
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Upload</button>
+    </form>
+
+    <h2 class="mt-5">Uploaded Files</h2>
+    <ul class="list-group">
+        @foreach (var file in ViewBag.Files as List<string>)
+        {
+            <li class="list-group-item">
+                @file
+                <a href="@Url.Action("Download", "Files", new { filename = file })" class="btn btn-link">Download</a>
+            </li>
+        }
+    </ul>
+</div>
