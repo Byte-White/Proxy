@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Clipboard";
+    var sharedString = ViewData["SharedString"] ?? "";
+}
+
+<h2>Shared String</h2>
+
+
+<textarea id="sharedStringInput" style="width:100%; height:200px;" placeholder="Type here...">@sharedString</textarea>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.13/signalr.min.js"></script>
+
+
+<script>
+    var connection = new signalR.HubConnectionBuilder().withUrl("/sharedStringHub").build();
+
+    connection.start().catch(function (err) {
+        return console.error(err.toString());
+    });
+
+    connection.on("ReceiveSharedStringUpdate", function (sharedString) {
+        document.getElementById("sharedStringInput").value = sharedString;
+        document.getElementById("sharedStringInput").innerText = sharedString;
+    });
+
+    function debounce(func, delay) {
+        let timer;
+        return function () {
+            const context = this;
+            const args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(() => func.apply(context, args), delay);
+        };
+    }
+
+    function updateSharedString() {
+        var newString = document.getElementById("sharedStringInput").value;
+        connection.invoke("SendSharedStringUpdate", newString).catch(function (err) {
+            return console.error(err.toString());
+        });
+    }
+
+    document.getElementById("sharedStringInput").oninput = debounce(updateSharedString, 300);
+</script>
